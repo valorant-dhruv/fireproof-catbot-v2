@@ -1,0 +1,9 @@
+{
+  "$schema": "https://www.partykit.io/schema.json",
+  "name": "catbot-v2-party",
+  "main": "party/index.ts",
+  "compatibilityDate": "2024-11-20",
+  "parties": {
+    "fireproof": "node_modules/@fireproof/partykit/server.ts"
+  }
+}
