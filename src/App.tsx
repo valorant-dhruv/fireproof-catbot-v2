@@ -4,7 +4,6 @@ import "./App.css";
 
 function App() {
   const response = useLiveQuery('date', {limit: 10, descending: true})
-  //Connection fails
   const connection = connect(useLiveQuery.database, '', 'http://127.0.0.1:1999')
   const todos = response.docs
   const [todo, setTodo, saveTodo] = useDocument(() => ({
