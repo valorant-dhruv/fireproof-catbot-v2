@@ -1,14 +1,21 @@
-import {useDocument, useLiveQuery,useFireproof} from "use-fireproof";
+import {useFireproof} from "use-fireproof";
 import { connect } from "@fireproof/partykit";
 import "./App.css";
 
+interface Doc {
+    _id?: string
+    text?: string
+    completed?: boolean
+}
+
 function App() {
-  const response = useLiveQuery('date', {limit: 10, descending: true})
+    const { database, useLiveQuery, useDocument } = useFireproof('catbot')
+  const response = useLiveQuery<Doc>('date', {limit: 10, descending: true})
 
   //Hello
-  const connection = connect(useLiveQuery.database, '', 'http://127.0.0.1:1999')
-  const todos = response.docs
-  const [todo, setTodo, saveTodo] = useDocument(() => ({
+  connect(database, '', 'http://127.0.0.1:1999?protocol=ws')
+  const todos = response.docs as Doc[]
+  const [todo, setTodo, saveTodo] = useDocument<Doc>(() => ({
     text: "",
     date: Date.now(),
     completed: false,
@@ -38,7 +45,7 @@ function App() {
               type="checkbox"
               checked={todo.completed as boolean}
               onChange={() =>
-                useLiveQuery.database.put({
+                database.put({
                   ...todo,
                   completed: !todo.completed,
                 })}
